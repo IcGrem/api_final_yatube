@@ -60,10 +60,10 @@ class APIFollowViewSet(generics.ListCreateAPIView):
 
     def perform_create(self, serializer):
         following = get_object_or_404(User, username=self.request.data.get('following'))
-        user = get_object_or_404(User, username=self.request.user)
-        follows = self.queryset.filter(user=user).filter(following=following)
+        user = self.request.user
+        follows = self.queryset.filter(user=user, following=following)
         if follows.exists():
             raise ValidationError(f'У вас уже есть подписка на {following}.')
         if user == following:
-            raise ValidationError(f'Нельзя подписаться на самого себя.')
+            raise ValidationError('Нельзя подписаться на самого себя.')
         serializer.save(user=user, following=following)
