@@ -12,10 +12,12 @@ from .views import (
 )
 
 
-
 router = DefaultRouter()
 router.register('posts', APIPostViewSet)
-router.register(r'posts/(?P<post_pk>\d+)/comments', APICommentViewSet, basename='comments')
+router.register(
+    r'posts/(?P<post_pk>\d+)/comments',
+    APICommentViewSet, basename='comments'
+)
 
 
 urlpatterns = [
